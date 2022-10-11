@@ -45,7 +45,7 @@ process();
 </script>
 
 <template>
-  <b>SYMBOLS IN ORDER (comma separated):</b>
+  <b>SYMBOLS (optional, in order, comma separated):</b>
   <textarea v-model="symbolsInOrder" style="width: 100%" rows="3" />
   <b>INPUT (from Excel tab separated):</b>
   <textarea v-model="reelText" style="width: 100%" rows="20" />
