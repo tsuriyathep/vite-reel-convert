@@ -6,35 +6,46 @@ let reelText = ref(`Bonus	Bonus	Bonus	Bonus	Bonus
 L3	L3	L2	L4	L5
 H2	L3	H2	H2	H2`);
 let reelResult = ref('');
+let symsArrStr = ref('');
 
 function process() {
   let symsArr = [];
-
   if (symbolsInOrder.value.trim().length > 0) {
     symsArr = symbolsInOrder.value
       .toUpperCase()
       .trim()
       .split(',')
       .map((n) => n.trim());
-  }
+    symsArrStr.value = symsArr.map((n, i) => `${i}=${n}`).join(',');
+  } else symsArrStr.value = '';
 
+  let result = '';
   let reelsStr = reelText.value.trim().toUpperCase();
   let rows = reelsStr.split('\n');
-  let cols = rows[0].trim().split('\t').length;
-  let arr = [];
+  let cols = 0;
+  let rowStart = 0;
+  for (let i = 0; i < rows.length; i++) {
+    let n = rows[i].trim().split('\t').length;
+    if (n > 1) {
+      cols = n;
+      rowStart = i;
+      break;
+    }
+  }
   for (let j = 0; j < cols; j++) {
     let colSymbols = [];
-    for (let i = 0; i < rows.length; i++) {
+    for (let i = rowStart; i < rows.length; i++) {
       let vals = rows[i].split('\t');
       let sym = vals[j].toUpperCase();
-      if (sym.length == 0) continue;
+      if (sym.length == 0) break;
       let index = symsArr.indexOf(sym);
       if (index > -1) sym = index;
       colSymbols.push(sym);
     }
-    arr.push(colSymbols);
+    result += `REEL#${j + 1} = ${JSON.stringify(colSymbols)}\n\n`;
   }
-  reelResult.value = JSON.stringify(arr);
+
+  reelResult.value = result;
 }
 
 watch([symbolsInOrder, reelText], (newValue, oldValue) => {
@@ -47,6 +58,12 @@ process();
 <template>
   <b>SYMBOLS (optional, in order, comma separated):</b>
   <textarea v-model="symbolsInOrder" style="width: 100%" rows="3" />
+  <div
+    v-if="symsArrStr.length > 0"
+    style="margin-bottom: 8px; word-wrap: break-word"
+  >
+    {{ symsArrStr }}
+  </div>
   <b>INPUT (from Excel tab separated):</b>
   <textarea v-model="reelText" style="width: 100%" rows="20" />
   <b>OUTPUT (JSON array):</b>
