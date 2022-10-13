@@ -9,6 +9,13 @@ let reelResult = ref('');
 let symsArrStr = ref('');
 
 function process() {
+  let result = '';
+  
+  // Clean input
+  symbolsInOrder.value = symbolsInOrder.value.trim()
+  reelText.value = reelText.value.trim()
+
+  // Get symbol indices
   let symsArr = [];
   if (symbolsInOrder.value.trim().length > 0) {
     symsArr = symbolsInOrder.value
@@ -19,7 +26,7 @@ function process() {
     symsArrStr.value = symsArr.map((n, i) => `${i}=${n}`).join(',');
   } else symsArrStr.value = '';
 
-  let result = '';
+  // Get starting data row
   let reelsStr = reelText.value.trim().toUpperCase();
   let rows = reelsStr.split('\n');
   let cols = 0;
@@ -32,6 +39,8 @@ function process() {
       break;
     }
   }
+
+  // Grab data column by column
   for (let j = 0; j < cols; j++) {
     let colSymbols = [];
     for (let i = rowStart; i < rows.length; i++) {
