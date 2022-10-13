@@ -42,7 +42,7 @@ function process() {
       if (index > -1) sym = index;
       colSymbols.push(sym);
     }
-    result += `REEL#${j + 1} = ${JSON.stringify(colSymbols)}\n\n`;
+    result += `REEL#${j + 1}[${colSymbols.length}] = ${JSON.stringify(colSymbols)}\n\n`;
   }
 
   reelResult.value = result;
