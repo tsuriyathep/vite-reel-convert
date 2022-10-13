@@ -5,7 +5,7 @@ import ReelConverter from './components/ReelConverter.vue';
 </script>
 
 <template>
-  <h1>R Converter</h1>
+  <h1>Reel Converter</h1>
   <ReelConverter />
 </template>
 
