@@ -17,14 +17,13 @@ function process() {
 
   // Get symbol indices
   let symsArr = [];
-  if (symbolsInOrder.value.trim().length > 0) {
+  if (symbolsInOrder.value.length > 0) {
     symsArr = symbolsInOrder.value.split(',').map((n) => n.trim());
     symsArrStr.value = symsArr.map((n, i) => `${i}=${n}`).join(',');
   } else symsArrStr.value = '';
 
   // Get starting data row
-  let reelsStr = reelText.value;
-  let rows = reelsStr.split('\n');
+  let rows = reelText.value.split('\n');
   let cols = 0;
   let rowStart = 0;
   for (let i = 0; i < rows.length; i++) {
@@ -43,7 +42,7 @@ function process() {
       let sym = rows[i].split('\t')[j];
       if (sym.length == 0) break;
       let index = symsArr.indexOf(sym);
-      if (index > -1) sym = index;
+      if (index > -1) sym = index; // Use symbol index of symbol, else string, if available
       colSymbols.push(sym);
     }
     result += `REEL#${j + 1}[${colSymbols.length}] = ${JSON.stringify(
