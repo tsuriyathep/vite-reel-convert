@@ -22,7 +22,7 @@ function process() {
     symsArrStr.value = symsArr.map((n, i) => `${i}=${n}`).join(',');
   } else symsArrStr.value = '';
 
-  // Get starting data row
+  // Get starting data row and count cols
   let rows = reelText.value.split('\n');
   let cols = 0;
   let rowStart = 0;
