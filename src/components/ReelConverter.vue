@@ -10,24 +10,20 @@ let symsArrStr = ref('');
 
 function process() {
   let result = '';
-  
+
   // Clean input
-  symbolsInOrder.value = symbolsInOrder.value.trim()
-  reelText.value = reelText.value.trim()
+  symbolsInOrder.value = symbolsInOrder.value.trim().toUpperCase();
+  reelText.value = reelText.value.trim().toUpperCase();
 
   // Get symbol indices
   let symsArr = [];
   if (symbolsInOrder.value.trim().length > 0) {
-    symsArr = symbolsInOrder.value
-      .toUpperCase()
-      .trim()
-      .split(',')
-      .map((n) => n.trim());
+    symsArr = symbolsInOrder.value.split(',').map((n) => n.trim());
     symsArrStr.value = symsArr.map((n, i) => `${i}=${n}`).join(',');
   } else symsArrStr.value = '';
 
   // Get starting data row
-  let reelsStr = reelText.value.trim().toUpperCase();
+  let reelsStr = reelText.value;
   let rows = reelsStr.split('\n');
   let cols = 0;
   let rowStart = 0;
@@ -44,14 +40,15 @@ function process() {
   for (let j = 0; j < cols; j++) {
     let colSymbols = [];
     for (let i = rowStart; i < rows.length; i++) {
-      let vals = rows[i].split('\t');
-      let sym = vals[j].toUpperCase();
+      let sym = rows[i].split('\t')[j];
       if (sym.length == 0) break;
       let index = symsArr.indexOf(sym);
       if (index > -1) sym = index;
       colSymbols.push(sym);
     }
-    result += `REEL#${j + 1}[${colSymbols.length}] = ${JSON.stringify(colSymbols)}\n\n`;
+    result += `REEL#${j + 1}[${colSymbols.length}] = ${JSON.stringify(
+      colSymbols
+    )}\n\n`;
   }
 
   reelResult.value = result;
