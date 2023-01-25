@@ -61,7 +61,7 @@ process();
 </script>
 
 <template>
-  <b>SYMBOLS (optional, in order, comma separated):</b>
+  <b>SYMBOLS (optional, in order, not case sensitive, comma separated):</b>
   <textarea v-model="symbolsInOrder" style="width: 100%" rows="3" />
   <div
     v-if="symsArrStr.length > 0"
